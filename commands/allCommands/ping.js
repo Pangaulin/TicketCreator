@@ -1,9 +1,14 @@
-const { SlashCommandBuilder } = require('discord.js');
+// eslint-disable-next-line no-unused-vars
+const { SlashCommandBuilder, CommandInteraction } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Pong ! 🏓'),
+	/**
+		 *
+		 * @param {CommandInteraction} interaction
+		 */
 	async execute(interaction) {
 
 		const ping = Date.now() - interaction.createdTimestamp;
