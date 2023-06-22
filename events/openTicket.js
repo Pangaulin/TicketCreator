@@ -6,13 +6,12 @@ module.exports = {
 	/**
      * @param {ButtonInteraction} interaction
      */
-	execute(interaction) {
+	async execute(interaction) {
 		if (!interaction.isButton()) {
 			return;
 		}
 
 		if (interaction.customId === 'open') {
-
 			const close = new ButtonBuilder()
 				.setCustomId('close')
 				.setLabel('Close')
@@ -34,21 +33,43 @@ module.exports = {
 			const row = new ActionRowBuilder()
 				.addComponents(close, closeWithReason, claim);
 
+			if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
+				const owner = await interaction.guild.fetchOwner();
+				interaction.guild.roles.create({
+					name: 'Ticket Manager',
+				}).then(() => {
+					owner.send({
+						content: 'The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**',
+					});
+				});
+			}
+
+			const ticketManagerId = interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager').id;
+			const guild = await interaction.client.guilds.fetch(interaction.guild.id);
+			const everyone = guild.roles.everyone.id;
+
 			interaction.guild.channels.create({
 				name: `ticket-${interaction.user.username}`,
 				type: ChannelType.GuildText,
 				permissionOverwrites: [
 					{
 						id: interaction.client.user.id,
-						allow: ['ViewChannel', 'ManageChannels'],
+						allow: ['ViewChannel', 'ManageChannels', 'SendMessages'],
 					},
 					{
 						id: interaction.user.id,
 						allow: ['ViewChannel', 'SendMessages'],
 					},
+					{
+						id: ticketManagerId,
+						allow: ['ViewChannel', 'SendMessages', 'ManageChannels'],
+					},
+					{
+						id: everyone,
+						deny: ['ViewChannel'],
+					},
 				],
 			}).then(channel => {
-
 				const answerEmbed = new EmbedBuilder()
 					.setTitle('Here is your ticket !')
 					.setColor('Blurple')
