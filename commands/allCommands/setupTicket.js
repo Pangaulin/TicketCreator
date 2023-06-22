@@ -24,6 +24,20 @@ module.exports = {
          * @param {CommandInteraction} interaction
          */
 	async execute(interaction) {
+
+		if (!interaction.memberPermissions.has('Administrator') || !interaction.memberPermissions.has('ManageGuild')) {
+			const noPermissionEmbed = new EmbedBuilder()
+				.setTitle('Permission denied')
+				.setDescription('You don\'t have the permission to use this button `Permission missing : ManageGuild or Administrator`')
+				.setColor('Red')
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
+			return interaction.reply({
+				embeds: [noPermissionEmbed],
+				ephemeral: true,
+			});
+		}
+
 		const isEmbed = interaction.options.getBoolean('embed');
 		const message = interaction.options.getString('message');
 		const title = interaction.options.getString('title');

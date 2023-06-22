@@ -22,7 +22,11 @@ module.exports = {
 			interaction.reply({
 				embeds: [claimEmbed],
 			}).then(() => {
-				// not finished
+				interaction.channel.permissionOverwrites.edit(interaction.guild.id,
+					{
+						SendMessages: false,
+					},
+				);
 			});
 		}
 	},

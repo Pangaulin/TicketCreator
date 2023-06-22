@@ -67,6 +67,7 @@ module.exports = {
 					{
 						id: everyone,
 						deny: ['ViewChannel'],
+						allow: ['SendMessages'],
 					},
 				],
 			}).then(channel => {
