@@ -35,7 +35,7 @@ module.exports = {
 
 			if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
 				const owner = await interaction.guild.fetchOwner();
-				interaction.guild.roles.create({
+				await interaction.guild.roles.create({
 					name: 'Ticket Manager',
 				}).then(() => {
 					owner.send({
