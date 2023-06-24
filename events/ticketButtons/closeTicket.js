@@ -12,7 +12,7 @@ module.exports = {
 		}
 
 		if (interaction.customId === 'close') {
-			if (interaction.memberPermissions.has('ManageChannels') || interaction.member.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			if (interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || interaction.member.roles.cache.find(role => role.name === 'Ticket Manager')) {
 				const confirmationEmbed = new EmbedBuilder()
 					.setTitle('Close ticket confirmation')
 					.setDescription('Do you really want to close the ticket ?')
@@ -48,16 +48,20 @@ module.exports = {
 		}
 
 		if (interaction.customId === 'closeConfirmation') {
-			if (interaction.memberPermissions.has('ManageChannels') || interaction.member.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			if (interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || interaction.member.roles.cache.find(role => role.name === 'Ticket Manager')) {
 				const timerEmbed = new EmbedBuilder()
 					.setTitle('Thank you for using our service !')
 					.setDescription('The ticket will be deleted in 5 seconds')
 					.setColor('Green')
 					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
 
-				return interaction.reply({
+				interaction.reply({
 					embeds: [timerEmbed],
-				}).then(() => setTimeout(() => interaction.channel.delete(), 5000));
+				}).then(() => setTimeout(() => {
+					interaction.channel.delete();
+				}, 5000));
+
+				return;
 			}
 			else {
 				const noPermissionEmbed = new EmbedBuilder()

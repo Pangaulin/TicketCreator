@@ -12,7 +12,6 @@ module.exports = {
 		}
 
 		if (interaction.customId === 'claim') {
-
 			const claimEmbed = new EmbedBuilder()
 				.setTitle('Ticket claimed !')
 				.setDescription(`The ticket has been claimed by ${interaction.member}`)
@@ -28,6 +27,8 @@ module.exports = {
 					},
 				);
 			});
+
+			return;
 		}
 	},
 };

@@ -58,7 +58,7 @@ module.exports = {
 					},
 					{
 						id: interaction.user.id,
-						allow: ['ViewChannel', 'SendMessages'],
+						allow: ['ViewChannel'],
 					},
 					{
 						id: ticketManagerId,
