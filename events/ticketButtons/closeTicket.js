@@ -58,7 +58,12 @@ module.exports = {
 				interaction.reply({
 					embeds: [timerEmbed],
 				}).then(() => setTimeout(() => {
-					interaction.channel.delete();
+					try {
+						interaction.channel.delete();
+					}
+					catch (error) {
+						return console.log(error);
+					}
 				}, 5000));
 
 				return;

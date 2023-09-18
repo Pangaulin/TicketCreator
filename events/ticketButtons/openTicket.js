@@ -33,6 +33,18 @@ module.exports = {
 			const row = new ActionRowBuilder()
 				.addComponents(close, closeWithReason, claim);
 
+			if (!interaction.appPermissions.has(['ManageRoles', 'ManageChannels'])) {
+				const noBotPermission = new EmbedBuilder()
+					.setTitle('A permission is required')
+					.setDescription('I need the `ManageChannels` and `ManageRoles` permissions to open a ticket')
+					.setColor('Red')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
+				return interaction.reply({
+					embeds: [noBotPermission],
+				});
+			}
+
 			if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
 				const owner = await interaction.guild.fetchOwner();
 				await interaction.guild.roles.create({
@@ -45,8 +57,6 @@ module.exports = {
 			}
 
 			const ticketManagerId = interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager').id;
-			const guild = await interaction.client.guilds.fetch(interaction.guild.id);
-			const everyone = guild.roles.everyone.id;
 
 			interaction.guild.channels.create({
 				name: `ticket-${interaction.user.username}`,
@@ -65,9 +75,9 @@ module.exports = {
 						allow: ['ViewChannel', 'SendMessages', 'ManageChannels'],
 					},
 					{
-						id: everyone,
-						deny: ['ViewChannel'],
+						id: interaction.guild.id,
 						allow: ['SendMessages'],
+						deny: ['ViewChannel'],
 					},
 				],
 			}).then(channel => {
