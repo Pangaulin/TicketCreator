@@ -11,8 +11,10 @@ module.exports = {
 			return;
 		}
 
+		const ticketmanager = await interaction.member.roles.cache.find(role => role.name === 'Ticket Manager');
+
 		if (interaction.customId === 'closeWithReason') {
-			if (interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || interaction.member.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			if (interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || ticketmanager) {
 				const confirmationEmbed = new EmbedBuilder()
 					.setTitle('Close ticket confirmation')
 					.setDescription('Do you really want to close the ticket ?')
@@ -31,6 +33,18 @@ module.exports = {
 				return interaction.reply({
 					embeds: [confirmationEmbed],
 					components: [row],
+				});
+			}
+			else {
+				const noPermissionEmbed = new EmbedBuilder()
+					.setTitle('Permission denied')
+					.setDescription(`You don't have the permission to use this button \n> - You dont have the permission \`ManageChannels\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)
+					.setColor('Red')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
+				return interaction.reply({
+					embeds: [noPermissionEmbed],
+					ephemeral: true,
 				});
 			}
 		}
