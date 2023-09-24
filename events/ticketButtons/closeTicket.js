@@ -19,7 +19,7 @@ module.exports = {
 					.setTitle('Close ticket confirmation')
 					.setDescription('Do you really want to close the ticket ?')
 					.setColor('Blurple')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				const closeConfirmationButton = new ButtonBuilder()
 					.setCustomId('closeConfirmation')
@@ -40,7 +40,7 @@ module.exports = {
 					.setTitle('Permission denied')
 					.setDescription(`You don't have the permission to use this button \n> - You dont have the permission \`ManageChannels\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noPermissionEmbed],
@@ -59,7 +59,7 @@ module.exports = {
 					.setTitle('Thank you for using our service !')
 					.setDescription('The ticket will be deleted in 5 seconds')
 					.setColor('Green')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				const channelName = interaction.channel.name;
 				const ticketOwner = channelName.substr(7);
@@ -79,7 +79,7 @@ module.exports = {
 						{ name: `${interaction.guild.emojis.cache.get('1155456482880540752')} Reason`, value: 'No reason provided' },
 					)
 					.setColor('Green')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				await ticketOwnerObject.send({
 					embeds: [userEmbed],
@@ -103,7 +103,7 @@ module.exports = {
 					.setTitle('Permission denied')
 					.setDescription('You don\'t have the permission to use this button `Permission missing : ManageChannels`')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noPermissionEmbed],

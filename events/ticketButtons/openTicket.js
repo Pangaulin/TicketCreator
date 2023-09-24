@@ -38,7 +38,7 @@ module.exports = {
 					.setTitle('A permission is required')
 					.setDescription('I need the `ManageChannels` and `ManageRoles` permissions to open a ticket')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noBotPermission],
@@ -51,7 +51,7 @@ module.exports = {
 					.setTitle('Role created')
 					.setColor('Blurple')
 					.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				await interaction.guild.roles.create({
 					name: 'Ticket Manager',
@@ -91,7 +91,7 @@ module.exports = {
 					.setTitle('Here is your ticket !')
 					.setColor('Blurple')
 					.setDescription('> Thank you for contacting support.\n> Please describe your issue and wait for a response.')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 				channel.send({
 					content: `${interaction.member}`,
 				}).then(message => {

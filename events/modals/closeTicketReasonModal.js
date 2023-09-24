@@ -33,7 +33,7 @@ module.exports = {
 					{ name: `${interaction.guild.emojis.cache.get('1155456482880540752')} Reason`, value: `${reason}` },
 				)
 				.setColor('Green')
-				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 			await ticketOwnerObject.send({
 				embeds: [userEmbed],
@@ -43,7 +43,7 @@ module.exports = {
 				.setTitle('Thank you for using our service !')
 				.setDescription('The ticket will be deleted in 5 seconds')
 				.setColor('Green')
-				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 			interaction.reply({
 				embeds: [timerEmbed],

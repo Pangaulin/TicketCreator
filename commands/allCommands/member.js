@@ -36,7 +36,7 @@ module.exports = {
 					.setTitle('Role created')
 					.setColor('Blurple')
 					.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				await interaction.guild.roles.create({
 					name: 'Ticket Manager',
@@ -52,7 +52,7 @@ module.exports = {
 					.setTitle('Permission denied')
 					.setDescription('You don\'t have the permission to use this command `Permission missing : ManageChannels`\n**People who have the role "Ticket Manager" can manage tickets**')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noPermissionEmbed],
@@ -65,7 +65,7 @@ module.exports = {
 						.setTitle('I can\'t do that')
 						.setDescription(`The user ${member} is already in this channel`)
 						.setColor('Red')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [alreadyInChannel],
@@ -83,7 +83,7 @@ module.exports = {
 						.setTitle('Member added')
 						.setDescription(`The member ${member} were successfully added in this channel !`)
 						.setColor('Green')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [embed],
@@ -95,7 +95,7 @@ module.exports = {
 					.setTitle('This is not a ticket')
 					.setDescription('This channel is not a ticket')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				interaction.reply({
 					embeds: [notATicketEmbed],
@@ -123,7 +123,7 @@ module.exports = {
 					.setTitle('Permission denied')
 					.setDescription('You don\'t have the permission to use this command `Permission missing : ManageChannels`\n**People who have the role "Ticket Manager" can manage tickets**')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noPermissionEmbed],
@@ -136,7 +136,7 @@ module.exports = {
 						.setTitle('I can\'t do that')
 						.setDescription(`The user ${member} is not in this channel`)
 						.setColor('Red')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [notInChannel],
@@ -154,7 +154,7 @@ module.exports = {
 						.setTitle('Member added')
 						.setDescription(`The member ${member} were successfully removed from this channel !`)
 						.setColor('Green')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [embed],
@@ -166,7 +166,7 @@ module.exports = {
 					.setTitle('This is not a ticket')
 					.setDescription('This channel is not a ticket')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				interaction.reply({
 					embeds: [notATicketEmbed],

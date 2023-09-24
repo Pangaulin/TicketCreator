@@ -35,7 +35,7 @@ module.exports = {
 					.setTitle('Role created')
 					.setColor('Blurple')
 					.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				await interaction.guild.roles.create({
 					name: 'Ticket Manager',
@@ -54,7 +54,7 @@ module.exports = {
 						.setTitle('Permission denied')
 						.setDescription(`You don't have the permission to use this command \n> - You dont have the permission \`ManageMessages\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)
 						.setColor('Red')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [noPermissionEmbed],
@@ -68,7 +68,7 @@ module.exports = {
 					.setTitle('You can\'t do that')
 					.setDescription('You can\'t use this command, because you are not in a ticket\nInstead, use the `/clear messages` or `/clear allchannel` command')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [embed],
@@ -103,13 +103,13 @@ module.exports = {
 						.setTitle('Here is your ticket !')
 						.setColor('Blurple')
 						.setDescription('> Thank you for contacting support.\n> Please describe your issue and wait for a response.')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					const answerEmbed = new EmbedBuilder()
 						.setTitle('The ticket was cleared')
 						.setDescription(`The entire ticket has been sucessfully cleared by ${interaction.member}`)
 						.setColor('Green')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					channel.send({
 						content: `${interaction.member}`,
@@ -134,7 +134,7 @@ module.exports = {
 				.setTitle('Permission denied')
 				.setDescription('You don\'t have the permission to use this command \n> - You dont have the permission `ManageMessages`')
 				.setColor('Red')
-				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 			return interaction.reply({
 				embeds: [noPermissionEmbed],
@@ -149,7 +149,7 @@ module.exports = {
 						.setTitle('The message was cleared')
 						.setDescription(`One message has been cleared by ${interaction.member}`)
 						.setColor('Green')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [answerEmbed],
@@ -161,7 +161,7 @@ module.exports = {
 						.setTitle('The messages were cleared')
 						.setDescription(`${messages.size} messages were cleared by ${interaction.member}`)
 						.setColor('Green')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					interaction.reply({
 						embeds: [answerEmbed],
@@ -176,7 +176,7 @@ module.exports = {
 					.setTitle('I can\'t clear this channel')
 					.setColor('Red')
 					.setDescription('This channel is a ticket, so I can\'t delete it\n> Instead use the `/clear ticket` command')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [answerEmbed],
@@ -191,7 +191,7 @@ module.exports = {
 						.setTitle('I can\'t clear all this channel')
 						.setDescription(`I need to delete this channel to clear it, but an error has occured :\n> ${err.rawError.message}`)
 						.setColor('Red')
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [errorEmbed],
@@ -202,7 +202,7 @@ module.exports = {
 					.setTitle('The channel was cleared')
 					.setDescription(`The entire channel has been sucessfully cleared by ${interaction.member}`)
 					.setColor('Green')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				channel.send({
 					embeds: [answerEmbed],

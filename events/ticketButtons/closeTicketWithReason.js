@@ -19,7 +19,7 @@ module.exports = {
 					.setTitle('Close ticket confirmation')
 					.setDescription('Do you really want to close the ticket ?')
 					.setColor('Blurple')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				const closeConfirmationButton = new ButtonBuilder()
 					.setCustomId('closeWithReasonConfirmation')
@@ -40,7 +40,7 @@ module.exports = {
 					.setTitle('Permission denied')
 					.setDescription(`You don't have the permission to use this button \n> - You dont have the permission \`ManageChannels\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noPermissionEmbed],
@@ -55,7 +55,7 @@ module.exports = {
 					.setTitle('Permission denied')
 					.setDescription(`You don't have the permission to use this button \n> - You dont have the permission \`ManageChannels\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [noPermissionEmbed],

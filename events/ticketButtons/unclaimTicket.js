@@ -17,7 +17,7 @@ module.exports = {
 					.setTitle('You can\'t do this')
 					.setDescription('You don\'t have the permission to unclaim the ticket because :\n> - You don\'t have the permission to `ManageChannels`')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				return interaction.reply({
 					embeds: [notTicketOwner],
@@ -51,7 +51,7 @@ module.exports = {
 					.setTitle('The embed isn\'t claimed')
 					.setDescription('@everyone already have the permission to write in this ticket')
 					.setColor('Red')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				await interaction.update({
 					components: [row],
@@ -71,7 +71,7 @@ module.exports = {
 					.setTitle('Ticket claimed !')
 					.setDescription(`The ticket has been unclaimed by ${interaction.member}`)
 					.setColor('Green')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				await interaction.update({
 					components: [row],

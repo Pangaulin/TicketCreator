@@ -30,7 +30,7 @@ module.exports = {
 				.setTitle('Permission denied')
 				.setDescription('You don\'t have the permission to use this button `Permission missing : ManageGuild or Administrator`')
 				.setColor('Red')
-				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 			return interaction.reply({
 				embeds: [noPermissionEmbed],
@@ -64,7 +64,7 @@ module.exports = {
 				const embed = new EmbedBuilder()
 					.setTitle(title)
 					.setDescription(message)
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 				interaction.channel.send({
 					embeds: [embed],
@@ -89,7 +89,7 @@ module.exports = {
 						.setTitle(title)
 						.setDescription(message)
 						.setColor(color)
-						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					interaction.channel.send({
 						embeds: [embed],
