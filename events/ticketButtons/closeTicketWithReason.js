@@ -4,7 +4,7 @@ const { Events, ButtonInteraction, ButtonBuilder, ActionRowBuilder, ModalBuilder
 module.exports = {
 	name: Events.InteractionCreate,
 	/**
-	 * @param {ButtonInteraction} interaction
+	 * @param { ButtonInteraction } interaction
 	 */
 	async execute(interaction) {
 		if (!interaction.isButton()) {
@@ -50,8 +50,21 @@ module.exports = {
 		}
 
 		if (interaction.customId === 'closeWithReasonConfirmation') {
+			if (!interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || ticketmanager) {
+				const noPermissionEmbed = new EmbedBuilder()
+					.setTitle('Permission denied')
+					.setDescription(`You don't have the permission to use this button \n> - You dont have the permission \`ManageChannels\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)
+					.setColor('Red')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
+				return interaction.reply({
+					embeds: [noPermissionEmbed],
+					ephemeral: true,
+				});
+			}
+
 			const modal = new ModalBuilder()
-				.setCustomId('mymodal')
+				.setCustomId('reason')
 				.setTitle('Reason of closing ticket');
 
 			const reason = new TextInputBuilder()

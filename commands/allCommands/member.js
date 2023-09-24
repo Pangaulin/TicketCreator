@@ -24,7 +24,7 @@ module.exports = {
 				),
 		),
 	/**
-	 * @param {CommandInteraction} interaction
+	 * @param { CommandInteraction } interaction
 	 */
 	async execute(interaction) {
 		if (interaction.options.getSubcommand() === 'add') {
@@ -32,11 +32,17 @@ module.exports = {
 
 			if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
 				const owner = await interaction.guild.fetchOwner();
+				const roleCreatedEmbed = new EmbedBuilder()
+					.setTitle('Role created')
+					.setColor('Blurple')
+					.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
 				await interaction.guild.roles.create({
 					name: 'Ticket Manager',
 				}).then(() => {
 					owner.send({
-						content: 'The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**',
+						embeds: [roleCreatedEmbed],
 					});
 				});
 			}

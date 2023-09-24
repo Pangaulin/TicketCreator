@@ -7,7 +7,7 @@ module.exports = {
 		.setDescription('Pong ! 🏓'),
 	/**
 		 *
-		 * @param {CommandInteraction} interaction
+		 * @param { CommandInteraction } interaction
 		 */
 	async execute(interaction) {
 

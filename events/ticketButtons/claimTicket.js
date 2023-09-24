@@ -4,7 +4,7 @@ const { ButtonInteraction, Events, EmbedBuilder, PermissionsBitField, ButtonBuil
 module.exports = {
 	name: Events.InteractionCreate,
 	/**
-     * @param {ButtonInteraction} interaction
+     * @param { ButtonInteraction } interaction
      */
 	async execute(interaction) {
 		if (!interaction.isButton()) {

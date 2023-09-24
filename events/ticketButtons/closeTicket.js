@@ -4,7 +4,7 @@ const { Events, ButtonInteraction, EmbedBuilder, ButtonBuilder, ButtonStyle, Act
 module.exports = {
 	name: Events.InteractionCreate,
 	/**
-     * @param {ButtonInteraction} interaction
+     * @param { ButtonInteraction } interaction
      */
 	async execute(interaction) {
 		if (!interaction.isButton()) {
@@ -49,6 +49,10 @@ module.exports = {
 			}
 		}
 
+		if (interaction.customId === 'closeWithReasonConfirmation') {
+			return;
+		}
+
 		if (interaction.customId === 'closeConfirmation') {
 			if (interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || ticketmanager) {
 				const timerEmbed = new EmbedBuilder()
@@ -56,6 +60,30 @@ module.exports = {
 					.setDescription('The ticket will be deleted in 5 seconds')
 					.setColor('Green')
 					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
+				const channelName = interaction.channel.name;
+				const ticketOwner = channelName.substr(7);
+				const ticketOwnerObject = await interaction.guild.members.cache.find(user => user.user.username === ticketOwner);
+				const currentTime = Math.floor(Date.now() / 1000);
+				const ticketCreationTime = Math.floor(interaction.channel.createdAt / 1000);
+
+				const userEmbed = new EmbedBuilder()
+					.setTitle('Your ticket is closed')
+					.setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ forceStatic: false }) })
+					.addFields(
+						{ name: `${interaction.guild.emojis.cache.get('1155456487641067520')} Ticket ID`, value: `${Math.round(Math.random() * 9999)}`, inline: true },
+						{ name: `${interaction.guild.emojis.cache.get('1155456490040205372')} Opened by`, value: `<@${ticketOwnerObject.id}>`, inline: true },
+						{ name: `${interaction.guild.emojis.cache.get('1155456484986081370')} Closed by`, value: `<@${interaction.member.id}>`, inline: true },
+						{ name: ':clock1130: Created time :', value: `<t:${ticketCreationTime}:f>`, inline: true },
+						{ name: ':clock4: Closed time :', value: `<t:${currentTime}:f>`, inline: true },
+						{ name: `${interaction.guild.emojis.cache.get('1155456482880540752')} Reason`, value: 'No reason provided' },
+					)
+					.setColor('Green')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Ticket Creator' });
+
+				await ticketOwnerObject.send({
+					embeds: [userEmbed],
+				});
 
 				interaction.reply({
 					embeds: [timerEmbed],

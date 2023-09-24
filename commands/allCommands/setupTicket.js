@@ -21,7 +21,7 @@ module.exports = {
 			.setDescription('Select a color for the embed (example : #FFFFFF)')
 			.setRequired(false)),
 	/**
-         * @param {CommandInteraction} interaction
+         * @param { CommandInteraction } interaction
          */
 	async execute(interaction) {
 

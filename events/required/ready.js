@@ -5,7 +5,7 @@ module.exports = {
 	name: Events.ClientReady,
 	once: true,
 	/**
-	 * @param {Client} client
+	 * @param { Client } client
 	 */
 	execute(client) {
 		client.user.setPresence({ status: 'dnd', activities: [{ name: '/setup', type: ActivityType.Listening }] });
