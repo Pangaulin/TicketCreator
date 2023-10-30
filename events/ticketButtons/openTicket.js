@@ -90,7 +90,7 @@ module.exports = {
 				const answerEmbed = new EmbedBuilder()
 					.setTitle('Here is your ticket !')
 					.setColor('Blurple')
-					.setDescription('> Thank you for contacting support.\n> Please describe your issue and wait for a response.')
+					.setDescription('> Thank you for contacting support.\n> Please describe your issue and wait for a response.\n> Note : Please do not change the ticket channel name')
 					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 				channel.send({
 					content: `${interaction.member}`,

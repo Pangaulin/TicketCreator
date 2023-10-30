@@ -11,6 +11,23 @@ module.exports = {
 			return;
 		}
 
+		if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			const owner = await interaction.guild.fetchOwner();
+			const roleCreatedEmbed = new EmbedBuilder()
+				.setTitle('Role created')
+				.setColor('Blurple')
+				.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+			await interaction.guild.roles.create({
+				name: 'Ticket Manager',
+			}).then(() => {
+				owner.send({
+					embeds: [roleCreatedEmbed],
+				});
+			});
+		}
+
 		const ticketmanager = await interaction.member.roles.cache.find(role => role.name === 'Ticket Manager');
 
 		if (interaction.customId === 'close') {
@@ -63,7 +80,7 @@ module.exports = {
 
 				const channelName = interaction.channel.name;
 				const ticketOwner = channelName.substr(7);
-				const ticketOwnerObject = await interaction.guild.members.cache.find(user => user.user.username === ticketOwner);
+				const ticketOwnerObject = (await interaction.guild.members.search({ query: ticketOwner })).first();
 				const currentTime = Math.floor(Date.now() / 1000);
 				const ticketCreationTime = Math.floor(interaction.channel.createdAt / 1000);
 
@@ -81,22 +98,32 @@ module.exports = {
 					.setColor('Green')
 					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-				await ticketOwnerObject.send({
-					embeds: [userEmbed],
+				await interaction.reply({
+					embeds: [timerEmbed],
 				});
 
-				interaction.reply({
-					embeds: [timerEmbed],
-				}).then(() => setTimeout(() => {
+				const delay = ms => new Promise(res => setTimeout(res, ms));
+
+				await delay(5000).then(() => {
 					try {
 						interaction.channel.delete();
 					}
-					catch (error) {
-						return console.log(error);
-					}
-				}, 5000));
+					catch (err) {
+						const errorEmbed = new EmbedBuilder()
+							.setTitle('An error has occurred')
+							.setDescription('An error has occurred when I tryed to close the ticket')
+							.setColor('Red')
+							.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-				return;
+						return interaction.reply({
+							embeds: [errorEmbed],
+						});
+					}
+
+					return ticketOwnerObject.send({
+						embeds: [userEmbed],
+					});
+				});
 			}
 			else {
 				const noPermissionEmbed = new EmbedBuilder()

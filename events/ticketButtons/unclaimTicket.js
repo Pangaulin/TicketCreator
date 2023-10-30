@@ -11,6 +11,23 @@ module.exports = {
 			return;
 		}
 
+		if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			const owner = await interaction.guild.fetchOwner();
+			const roleCreatedEmbed = new EmbedBuilder()
+				.setTitle('Role created')
+				.setColor('Blurple')
+				.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+			await interaction.guild.roles.create({
+				name: 'Ticket Manager',
+			}).then(() => {
+				owner.send({
+					embeds: [roleCreatedEmbed],
+				});
+			});
+		}
+
 		if (interaction.customId === 'unclaim') {
 			if (await !interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
 				const notTicketOwner = new EmbedBuilder()
@@ -24,6 +41,8 @@ module.exports = {
 					ephemeral: true,
 				});
 			}
+
+			const ticketmanager = interaction.guild.roles.cache.find((role) => role.name === 'Ticket Manager');
 
 			const close = new ButtonBuilder()
 				.setCustomId('close')
@@ -46,41 +65,52 @@ module.exports = {
 			const row = new ActionRowBuilder()
 				.addComponents(close, closeWithReason, claim);
 
-			if (await interaction.channel.permissionsFor(interaction.guild.id).has(PermissionsBitField.Flags.SendMessages)) {
-				const alreadyClaimed = new EmbedBuilder()
-					.setTitle('The embed isn\'t claimed')
-					.setDescription('@everyone already have the permission to write in this ticket')
+			const channelName = interaction.channel.name;
+			const ticketCreatorUsername = channelName.substr(7);
+			const ticketCreator = (await interaction.guild.members.search({ query: ticketCreatorUsername })).first();
+
+			try {
+				interaction.channel.permissionOverwrites.set([
+					{
+						id: ticketmanager.id,
+						allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+					},
+					{
+						id: interaction.guild.id,
+						deny: [PermissionsBitField.Flags.ViewChannel],
+						allow: [PermissionsBitField.Flags.SendMessages],
+					},
+					{
+						id: ticketCreator.id,
+						allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+					},
+				]);
+			}
+			catch (err) {
+				const errEmbed = new EmbedBuilder()
+					.setTitle('An error has occurred')
+					.setDescription('An error has occurred while claiming the ticket.\n> Tip : Look if the username on the name of the ticket is same as initial creator username')
 					.setColor('Red')
 					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
-
-				await interaction.update({
-					components: [row],
-				});
-
-				return interaction.followUp({
-					embeds: [alreadyClaimed],
+				console.log(err);
+				return interaction.reply({
+					embeds: [errEmbed],
 				});
 			}
-			else {
-				interaction.channel.permissionOverwrites.edit(interaction.guild.id, {
-					SendMessages: true,
-				});
 
+			const unclaimEmbed = new EmbedBuilder()
+				.setTitle('The ticket has been unclaimed')
+				.setDescription(`${interaction.member} has unclaimed the ticket`)
+				.setColor('Green')
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-				const unclaimedEmbed = new EmbedBuilder()
-					.setTitle('Ticket claimed !')
-					.setDescription(`The ticket has been unclaimed by ${interaction.member}`)
-					.setColor('Green')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+			interaction.update({
+				components: [row],
+			});
 
-				await interaction.update({
-					components: [row],
-				}).then(() => {
-					interaction.followUp({
-						embeds: [unclaimedEmbed],
-					});
-				});
-			}
+			return interaction.channel.send({
+				embeds: [unclaimEmbed],
+			});
 		}
 	},
 };

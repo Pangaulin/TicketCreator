@@ -11,6 +11,23 @@ module.exports = {
 			return;
 		}
 
+		if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			const owner = await interaction.guild.fetchOwner();
+			const roleCreatedEmbed = new EmbedBuilder()
+				.setTitle('Role created')
+				.setColor('Blurple')
+				.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+			await interaction.guild.roles.create({
+				name: 'Ticket Manager',
+			}).then(() => {
+				owner.send({
+					embeds: [roleCreatedEmbed],
+				});
+			});
+		}
+
 		const ticketmanager = await interaction.member.roles.cache.find(role => role.name === 'Ticket Manager');
 
 		if (interaction.customId === 'closeWithReason') {
@@ -50,7 +67,7 @@ module.exports = {
 		}
 
 		if (interaction.customId === 'closeWithReasonConfirmation') {
-			if (!interaction.memberPermissions.has('ManageChannels') || interaction.memberPermissions.has('Administrator') || ticketmanager) {
+			if (!interaction.memberPermissions.has('ManageChannels') || !interaction.memberPermissions.has('Administrator') || !ticketmanager) {
 				const noPermissionEmbed = new EmbedBuilder()
 					.setTitle('Permission denied')
 					.setDescription(`You don't have the permission to use this button \n> - You dont have the permission \`ManageChannels\`\n> - You don't have the role ${interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')}`)

@@ -28,24 +28,24 @@ module.exports = {
 		 * @param { CommandInteraction } interaction
 		 */
 	async execute(interaction) {
-		if (interaction.options.getSubcommand() === 'ticket') {
-			if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
-				const owner = await interaction.guild.fetchOwner();
-				const roleCreatedEmbed = new EmbedBuilder()
-					.setTitle('Role created')
-					.setColor('Blurple')
-					.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
-					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+		if (!interaction.guild.roles.cache.find(role => role.name === 'Ticket Manager')) {
+			const owner = await interaction.guild.fetchOwner();
+			const roleCreatedEmbed = new EmbedBuilder()
+				.setTitle('Role created')
+				.setColor('Blurple')
+				.setDescription('The role **Ticket Manager** was created. Give it to the members who need to see tickets.\n**⚠️ Please do not change his name**')
+				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-				await interaction.guild.roles.create({
-					name: 'Ticket Manager',
-				}).then(() => {
-					owner.send({
-						embeds: [roleCreatedEmbed],
-					});
+			await interaction.guild.roles.create({
+				name: 'Ticket Manager',
+			}).then(() => {
+				owner.send({
+					embeds: [roleCreatedEmbed],
 				});
-			}
+			});
+		}
 
+		if (interaction.options.getSubcommand() === 'ticket') {
 			const ticketmanager = await interaction.member.roles.cache.find(role => role.name === 'Ticket Manager');
 
 			if (!ticketmanager) {
@@ -147,24 +147,28 @@ module.exports = {
 				if (messages.size === 1) {
 					const answerEmbed = new EmbedBuilder()
 						.setTitle('The message was cleared')
-						.setDescription(`One message has been cleared by ${interaction.member}`)
+						.setDescription(`One message has been cleared by ${interaction.member}\n> Messages who are 14 days old and more won't be deleted`)
 						.setColor('Green')
 						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
 					return interaction.reply({
 						embeds: [answerEmbed],
+					}).then((message) => {
+						setTimeout(() => message.delete(), 5000);
 					});
 				}
 
 				else {
 					const answerEmbed = new EmbedBuilder()
 						.setTitle('The messages were cleared')
-						.setDescription(`${messages.size} messages were cleared by ${interaction.member}`)
+						.setDescription(`${messages.size} messages were cleared by ${interaction.member}\n> Messages who are 14 days old and more won't be deleted`)
 						.setColor('Green')
 						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-					interaction.reply({
+					return interaction.reply({
 						embeds: [answerEmbed],
+					}).then((message) => {
+						setTimeout(() => message.delete(), 5000);
 					});
 				}
 			});

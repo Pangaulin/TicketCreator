@@ -17,7 +17,7 @@ module.exports = {
 
 			const channelName = interaction.channel.name;
 			const ticketOwner = channelName.substr(7);
-			const ticketOwnerObject = await interaction.guild.members.cache.find(user => user.user.username === ticketOwner);
+			const ticketOwnerObject = (await interaction.guild.members.search({ query: ticketOwner })).first();
 			const currentTime = Math.floor(Date.now() / 1000);
 			const ticketCreationTime = Math.floor(interaction.channel.createdAt / 1000);
 
@@ -35,26 +35,38 @@ module.exports = {
 				.setColor('Green')
 				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-			await ticketOwnerObject.send({
-				embeds: [userEmbed],
-			});
-
 			const timerEmbed = new EmbedBuilder()
 				.setTitle('Thank you for using our service !')
 				.setDescription('The ticket will be deleted in 5 seconds')
 				.setColor('Green')
 				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
 
-			interaction.reply({
+			await interaction.reply({
 				embeds: [timerEmbed],
-			}).then(() => setTimeout(() => {
+			});
+
+			const delay = ms => new Promise(res => setTimeout(res, ms));
+
+			await delay(5000).then(() => {
 				try {
 					interaction.channel.delete();
 				}
-				catch (error) {
-					return console.log(error);
+				catch (err) {
+					const errorEmbed = new EmbedBuilder()
+						.setTitle('An error has occurred')
+						.setDescription('An error has occurred when I tried to close the ticket')
+						.setColor('Red')
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+					return interaction.reply({
+						embeds: [errorEmbed],
+					});
 				}
-			}, 5000));
+
+				return ticketOwnerObject.send({
+					embeds: [userEmbed],
+				});
+			});
 		}
 	},
 
