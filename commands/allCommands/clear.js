@@ -190,7 +190,6 @@ module.exports = {
 			await interaction.channel.clone().then((channel) => {
 				interaction.channel.delete().catch((err) => {
 					channel.delete();
-
 					const errorEmbed = new EmbedBuilder()
 						.setTitle('I can\'t clear all this channel')
 						.setDescription(`I need to delete this channel to clear it, but an error has occured :\n> ${err.rawError.message}`)
@@ -210,10 +209,14 @@ module.exports = {
 
 				channel.send({
 					embeds: [answerEmbed],
+				}).catch(() => {
+					return;
 				});
 
 				channel.send(`${interaction.member}`).then((message) => {
 					message.delete();
+				}).catch(() => {
+					return;
 				});
 			});
 		}

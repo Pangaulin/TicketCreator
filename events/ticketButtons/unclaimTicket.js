@@ -77,8 +77,8 @@ module.exports = {
 					},
 					{
 						id: interaction.guild.id,
-						deny: [PermissionsBitField.Flags.ViewChannel],
 						allow: [PermissionsBitField.Flags.SendMessages],
+						deny: [PermissionsBitField.Flags.ViewChannel],
 					},
 					{
 						id: ticketCreator.id,
