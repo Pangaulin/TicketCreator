@@ -70,21 +70,18 @@ module.exports = {
 			const ticketCreator = (await interaction.guild.members.search({ query: ticketCreatorUsername })).first();
 
 			try {
-				interaction.channel.permissionOverwrites.set([
-					{
-						id: ticketmanager.id,
-						allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
-					},
-					{
-						id: interaction.guild.id,
-						allow: [PermissionsBitField.Flags.SendMessages],
-						deny: [PermissionsBitField.Flags.ViewChannel],
-					},
-					{
-						id: ticketCreator.id,
-						allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
-					},
-				]);
+				interaction.channel.permissionOverwrites.edit(ticketmanager.id, {
+					ViewChannel: true,
+					SendMessages: true,
+				});
+				interaction.channel.permissionOverwrites.edit(interaction.guild.id, {
+					SendMessages: true,
+					ViewChannel: false,
+				});
+				interaction.channel.permissionOverwrites.edit(ticketCreator.id, {
+					ViewChannel: true,
+					SendMessages: true,
+				});
 			}
 			catch (err) {
 				const errEmbed = new EmbedBuilder()

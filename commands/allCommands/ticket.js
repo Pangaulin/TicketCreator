@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const { CommandInteraction, SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, ChannelType, Embed } = require('discord.js');
+const { CommandInteraction, SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, ChannelType, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,7 +20,25 @@ module.exports = {
 		)
 		.addSubcommand(subcommand =>
 			subcommand.setName('notes')
-				.setDescription('Create a separate thread, who can only be viewed by support')),
+				.setDescription('Create a separate thread, who can only be viewed by support'))
+		.addSubcommand(subcommand =>
+			subcommand.setName('add')
+				.setDescription('Allows to add a member in the current ticket')
+				.addUserOption((option) =>
+					option.setName('member')
+						.setDescription('Choose the member who will be added in the ticket')
+						.setRequired(true),
+				),
+		)
+		.addSubcommand(subcommand =>
+			subcommand.setName('remove')
+				.setDescription('Allows to remove a member in the current ticket')
+				.addUserOption((option) =>
+					option.setName('member')
+						.setDescription('Choose the member who will be removed in the ticket')
+						.setRequired(true),
+				),
+		),
 	/**
 	 * @param { CommandInteraction } interaction
 	 */
@@ -174,6 +192,99 @@ module.exports = {
 					embeds: [answerEmbed],
 				});
 
+			}
+		}
+
+		if (interaction.options.getSubcommand() === 'add') {
+			const member = interaction.options.getMember('member');
+			if (interaction.channel.name.startsWith('ticket-')) {
+				if (member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.ViewChannel)) {
+					const alreadyInChannel = new EmbedBuilder()
+						.setTitle('I can\'t do that')
+						.setDescription(`The user ${member} is already in this channel`)
+						.setColor('Red')
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+					return interaction.reply({
+						embeds: [alreadyInChannel],
+					});
+				}
+
+				await interaction.channel.permissionOverwrites.edit(await interaction.guild.roles.everyone.id, {
+					ViewChannel: false,
+					SendMessages: true,
+				});
+
+				await interaction.channel.permissionOverwrites.edit(member.id, {
+					ViewChannel: true,
+				}).then(() => {
+
+					const embed = new EmbedBuilder()
+						.setTitle('Member added')
+						.setDescription(`The member ${member} were successfully added in this channel !`)
+						.setColor('Green')
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+					return interaction.reply({
+						embeds: [embed],
+					});
+				});
+			}
+			else {
+				const notATicketEmbed = new EmbedBuilder()
+					.setTitle('This is not a ticket')
+					.setDescription('This channel is not a ticket')
+					.setColor('Red')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+				interaction.reply({
+					embeds: [notATicketEmbed],
+					ephemeral: true,
+				});
+			}
+		}
+
+		if (interaction.options.getSubcommand() === 'remove') {
+			const member = interaction.options.getMember('member');
+			if (interaction.channel.name.includes('ticket-')) {
+				if (!member.permissionsIn(interaction.channel).has(PermissionsBitField.Flags.ViewChannel)) {
+					const notInChannel = new EmbedBuilder()
+						.setTitle('I can\'t do that')
+						.setDescription(`The user ${member} is not in this channel`)
+						.setColor('Red')
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+					return interaction.reply({
+						embeds: [notInChannel],
+					});
+				}
+
+				await interaction.channel.permissionOverwrites.edit(member.id, {
+					ViewChannel: false,
+				}).then(() => {
+
+					const embed = new EmbedBuilder()
+						.setTitle('Member added')
+						.setDescription(`The member ${member} were successfully removed from this channel !`)
+						.setColor('Green')
+						.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+					return interaction.reply({
+						embeds: [embed],
+					});
+				});
+			}
+			else {
+				const notATicketEmbed = new EmbedBuilder()
+					.setTitle('This is not a ticket')
+					.setDescription('This channel is not a ticket')
+					.setColor('Red')
+					.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
+
+				interaction.reply({
+					embeds: [notATicketEmbed],
+					ephemeral: true,
+				});
 			}
 		}
 
