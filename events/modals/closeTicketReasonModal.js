@@ -25,12 +25,12 @@ module.exports = {
 				.setTitle('Your ticket is closed')
 				.setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ forceStatic: false }) })
 				.addFields(
-					{ name: `${interaction.guild.emojis.cache.get('1155456487641067520')} Ticket ID`, value: `${Math.round(Math.random() * 9999)}`, inline: true },
-					{ name: `${interaction.guild.emojis.cache.get('1155456490040205372')} Opened by`, value: `<@${ticketOwnerObject.id}>`, inline: true },
-					{ name: `${interaction.guild.emojis.cache.get('1155456484986081370')} Closed by`, value: `<@${interaction.member.id}>`, inline: true },
-					{ name: ':clock1130: Created time :', value: `<t:${ticketCreationTime}:f>`, inline: true },
-					{ name: ':clock4: Closed time :', value: `<t:${currentTime}:f>`, inline: true },
-					{ name: `${interaction.guild.emojis.cache.get('1155456482880540752')} Reason`, value: `${reason}` },
+					{ name: `Ticket ID`, value: `${Math.round(Math.random() * 9999)}`, inline: true },
+					{ name: `Opened by`, value: `<@${ticketOwnerObject.id}>`, inline: true },
+					{ name: `Closed by`, value: `<@${interaction.member.id}>`, inline: true },
+					{ name: 'Created time :', value: `<t:${ticketCreationTime}:f>`, inline: true },
+					{ name: 'Closed time :', value: `<t:${currentTime}:f>`, inline: true },
+					{ name: `Reason`, value: `${reason}` },
 				)
 				.setColor('Green')
 				.setFooter({ iconURL: interaction.client.user.displayAvatarURL({}), text: 'Powered by Easy Ticket' });
